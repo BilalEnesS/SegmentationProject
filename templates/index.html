@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Segmentation & Background Replacement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .navbar {
+            width: 100%;
+            background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+            color: #fff;
+            padding: 0 0 0 0;
+            box-shadow: 0 2px 12px rgba(76, 110, 245, 0.08);
+        }
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 64px;
+        }
+        .navbar-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .navbar-menu {
+            font-size: 1em;
+            font-weight: 500;
+            opacity: 0.85;
+        }
+        .navbar-menu a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 24px;
+            transition: opacity 0.2s;
+        }
+        .navbar-menu a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        .hero {
+            max-width: 600px;
+            margin: 40px auto 0 auto;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 2.1em;
+            color: #2d3a4b;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .hero-desc {
+            color: #3a4a5d;
+            font-size: 1.15em;
+            margin-bottom: 32px;
+            opacity: 0.85;
+        }
+        .container {
+            background: #fff;
+            max-width: 420px;
+            margin: 24px auto 0 auto;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            padding: 36px 32px 28px 32px;
+            text-align: center;
+        }
+        h2 {
+            color: #2d3a4b;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        label {
+            display: block;
+            margin: 18px 0 6px 0;
+            color: #3a4a5d;
+            font-weight: 500;
+            text-align: left;
+        }
+        input[type=file], input[type=text] {
+            width: 100%;
+            padding: 18px 14px;
+            margin-bottom: 12px;
+            border: 1px solid #cfd8dc;
+            border-radius: 7px;
+            font-size: 18px;
+            background: #f7fafc;
+            transition: border 0.2s;
+            box-sizing: border-box;
+        }
+        input[type=text]:focus, input[type=file]:focus {
+            border: 1.5px solid #6c63ff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 16px 0;
+            background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 22px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(76, 110, 245, 0.08);
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #48c6ef 0%, #6c63ff 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .error {
+            color: #e74c3c;
+            background: #fff0f0;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 8px 0;
+            margin-bottom: 10px;
+        }
+        footer {
+            margin-top: 48px;
+            padding: 18px 0 10px 0;
+            background: #f7fafc;
+            color: #3a4a5d;
+            text-align: center;
+            font-size: 1em;
+            opacity: 0.8;
+            border-top: 1px solid #e0eafc;
+        }
+        @media (max-width: 600px) {
+            .navbar-content { padding: 0 8px; }
+            .hero { max-width: 98vw; }
+            .container { max-width: 98vw; padding: 18px 6vw 18px 6vw; }
+            input[type=file], input[type=text] { font-size: 16px; padding: 14px 10px; }
+            button { font-size: 17px; padding: 13px 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title">Segmentation Studio</div>
+            <div class="navbar-menu">
+                <a href="/">Home</a>
+                <a href="#how">How it works?</a>
+            </div>
+        </div>
+    </nav>
+    <div class="hero">
+        <div class="hero-title">AI-Powered Image Segmentation & Background Replacement</div>
+        <div class="hero-desc">
+            Upload your photo, describe the object you want to segment, and enter a prompt for your dream background.<br>
+            Our AI will extract your subject and place it on a stunning new background in seconds!
+        </div>
+    </div>
+    <div class="container">
+        <h2>Start Your Transformation</h2>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="post" enctype="multipart/form-data">
+            <label>Upload Image:</label>
+            <input type="file" name="image" accept="image/*" required>
+            <label>Segmentation Prompt (e.g. "human"):</label>
+            <input type="text" name="subject_prompt" value="human" required>
+            <label>Background Prompt (e.g. "beautiful beach"):</label>
+            <input type="text" name="background_prompt" value="beautiful tropical beach with palm trees and turquoise water" required>
+            <button type="submit">Process</button>
+        </form>
+    </div>
+    <footer>
+        &copy; 2024 Segmentation Studio &mdash; Powered by CLIPSeg & OpenAI DALL-E
+    </footer>
+</body>
+</html> 

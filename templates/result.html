@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .navbar {
+            width: 100%;
+            background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(76, 110, 245, 0.08);
+        }
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 64px;
+        }
+        .navbar-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .navbar-menu {
+            font-size: 1em;
+            font-weight: 500;
+            opacity: 0.85;
+        }
+        .navbar-menu a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 24px;
+            transition: opacity 0.2s;
+        }
+        .navbar-menu a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        .desc {
+            max-width: 700px;
+            margin: 38px auto 0 auto;
+            text-align: center;
+            color: #3a4a5d;
+            font-size: 1.15em;
+            opacity: 0.88;
+        }
+        .container {
+            background: #fff;
+            max-width: 1200px;
+            margin: 32px auto 0 auto;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            padding: 36px 32px 28px 32px;
+        }
+        h2 {
+            color: #2d3a4b;
+            margin-bottom: 32px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px 18px;
+            justify-content: center;
+        }
+        .img-block {
+            flex: 1 1 260px;
+            min-width: 220px;
+            max-width: 320px;
+            background: #f7fafc;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(76, 110, 245, 0.07);
+            padding: 18px 10px 14px 10px;
+            margin-bottom: 18px;
+            text-align: center;
+            transition: box-shadow 0.2s, transform 0.1s;
+        }
+        .img-block:hover {
+            box-shadow: 0 6px 24px rgba(76, 110, 245, 0.13);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .img-block h4 {
+            color: #3a4a5d;
+            margin-bottom: 10px;
+            font-size: 1.08em;
+        }
+        img {
+            max-width: 100%;
+            border: 1.5px solid #cfd8dc;
+            border-radius: 8px;
+            background: #fff;
+            margin-bottom: 6px;
+        }
+        a.button {
+            display: block;
+            margin: 30px auto 0 auto;
+            width: 220px;
+            text-align: center;
+            background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+            color: #fff;
+            padding: 12px 0;
+            border-radius: 7px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(76, 110, 245, 0.08);
+            transition: background 0.2s, transform 0.1s;
+        }
+        a.button:hover {
+            background: linear-gradient(90deg, #48c6ef 0%, #6c63ff 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        footer {
+            margin-top: 48px;
+            padding: 18px 0 10px 0;
+            background: #f7fafc;
+            color: #3a4a5d;
+            text-align: center;
+            font-size: 1em;
+            opacity: 0.8;
+            border-top: 1px solid #e0eafc;
+        }
+        @media (max-width: 900px) {
+            .container { max-width: 98vw; padding: 18px 2vw 18px 2vw; }
+            .images { gap: 18px 8px; }
+        }
+        @media (max-width: 600px) {
+            .img-block { min-width: 90vw; max-width: 98vw; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title">Segmentation Studio</div>
+            <div class="navbar-menu">
+                <a href="/">Home</a>
+                <a href="#how">How it works?</a>
+            </div>
+        </div>
+    </nav>
+    <div class="desc">
+        Your image has been processed successfully!<br>
+        See all the results below. You can download or review each step of the transformation.
+    </div>
+    <div class="container">
+        <h2>Results</h2>
+        <div class="images">
+            <div class="img-block">
+                <h4>Original</h4>
+                <img src="/{{ files.original }}" alt="Original">
+            </div>
+            <div class="img-block">
+                <h4>Refined Mask</h4>
+                <img src="/{{ files.mask }}" alt="Mask">
+            </div>
+            <div class="img-block">
+                <h4>Extracted Subject (Transparent)</h4>
+                <img src="/{{ files.extracted }}" alt="Extracted">
+            </div>
+            <div class="img-block">
+                <h4>White Background</h4>
+                <img src="/{{ files.white_bg }}" alt="White BG">
+            </div>
+            <div class="img-block">
+                <h4>New Background</h4>
+                <img src="/{{ files.new_background }}" alt="New BG">
+            </div>
+            <div class="img-block">
+                <h4>Final Result</h4>
+                <img src="/{{ files.final }}" alt="Final">
+            </div>
+        </div>
+        <a href="/" class="button">&#8592; Process another image</a>
+    </div>
+    <footer>
+        &copy; 2024 Segmentation Studio &mdash; Powered by CLIPSeg & OpenAI DALL-E
+    </footer>
+</body>
+</html> 

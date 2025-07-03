@@ -1,0 +1,9 @@
+transformers
+Pillow
+torch
+matplotlib
+numpy
+opencv-python
+requests
+openai
+python-dotenv 
